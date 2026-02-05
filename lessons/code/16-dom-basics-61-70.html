@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DOM Basics 61–70</title>
+    <style>
+      body { font-family: system-ui, sans-serif; padding: 24px; }
+      .panel { border: 1px solid #ddd; padding: 12px; margin-top: 12px; }
+      .notice { color: #1565c0; }
+      .error { color: #c62828; }
+    </style>
+  </head>
+  <body>
+    <h1>DOM Basics (Lessons 61–70)</h1>
+
+    <div class="panel">
+      <p id="liveStatus">Status: idle</p>
+      <button id="startTask">Start Task</button>
+    </div>
+
+    <div class="panel">
+      <label>
+        Age:
+        <input id="ageInput" type="number" />
+      </label>
+      <button id="checkAge">Check</button>
+      <p id="ageResult"></p>
+    </div>
+
+    <div class="panel">
+      <button id="toggleList">Toggle List</button>
+      <ul id="list" class="hidden"></ul>
+    </div>
+
+    <div class="panel">
+      <button id="loadData">Load Data</button>
+      <p id="dataStatus"></p>
+    </div>
+
+    <script>
+      // How to run this file:
+      // 1) Open this HTML file in your browser
+      // 2) Open DevTools -> Console to see logs
+
+      // -----------------------------------------------------------------------
+      // LESSON 61: Simple status indicator
+      // Update a status text while an action happens.
+      // Why this matters: feedback keeps users calm.
+      const liveStatus = document.querySelector("#liveStatus");
+      const startTask = document.querySelector("#startTask");
+      startTask.addEventListener("click", () => {
+        liveStatus.textContent = "Status: working...";
+        setTimeout(() => {
+          liveStatus.textContent = "Status: done";
+        }, 800);
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 62: Reading number inputs safely
+      // Convert string input into a number.
+      // Why this matters: inputs are text by default.
+      const ageInput = document.querySelector("#ageInput");
+      const checkAge = document.querySelector("#checkAge");
+      const ageResult = document.querySelector("#ageResult");
+      checkAge.addEventListener("click", () => {
+        const value = Number(ageInput.value);
+        if (Number.isNaN(value)) {
+          ageResult.textContent = "Please enter a number";
+          ageResult.className = "error";
+          return;
+        }
+        ageResult.textContent = value >= 18 ? "Adult" : "Minor";
+        ageResult.className = "notice";
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 63: Creating list items from data
+      // Render a list from an array.
+      // Why this matters: most UIs are data-driven.
+      const list = document.querySelector("#list");
+      const data = ["one", "two", "three"];
+      function render() {
+        list.innerHTML = "";
+        data.forEach((item) => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          list.appendChild(li);
+        });
+      }
+      render();
+
+      // -----------------------------------------------------------------------
+      // LESSON 64: Show/hide list
+      // Toggle visibility with a class.
+      // Why this matters: it helps manage clutter.
+      const toggleList = document.querySelector("#toggleList");
+      toggleList.addEventListener("click", () => {
+        list.classList.toggle("hidden");
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 65: Empty state
+      // Show a message when there is no data.
+      // Why this matters: blank screens confuse users.
+      if (data.length === 0) {
+        list.innerHTML = "<li>No items</li>";
+      }
+
+      // -----------------------------------------------------------------------
+      // LESSON 66: Simple loading state (concept)
+      // Show “loading” while waiting.
+      // Why this matters: users need feedback.
+      const loadData = document.querySelector("#loadData");
+      const dataStatus = document.querySelector("#dataStatus");
+      loadData.addEventListener("click", () => {
+        dataStatus.textContent = "Loading...";
+        setTimeout(() => {
+          dataStatus.textContent = "Loaded!";
+        }, 600);
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 67: Disabling during loading
+      // Disable buttons while loading.
+      // Why this matters: it prevents double clicks.
+      loadData.addEventListener("click", () => {
+        loadData.disabled = true;
+        setTimeout(() => {
+          loadData.disabled = false;
+        }, 600);
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 68: Simple status class changes
+      // Change class to signal state.
+      // Why this matters: color and style communicate status.
+      dataStatus.className = "notice";
+
+      // -----------------------------------------------------------------------
+      // LESSON 69: Basic error state
+      // Show an error message when something fails.
+      // Why this matters: it keeps users informed.
+      function showError(message) {
+        dataStatus.textContent = message;
+        dataStatus.className = "error";
+      }
+      // Try: showError("Network error");
+
+      // -----------------------------------------------------------------------
+      // LESSON 70: Simple UI update function
+      // Wrap UI updates in small functions.
+      // Why this matters: it keeps code organized.
+      function setStatus(text, className) {
+        dataStatus.textContent = text;
+        dataStatus.className = className;
+      }
+      setStatus("Ready", "notice");
+    </script>
+  </body>
+</html>

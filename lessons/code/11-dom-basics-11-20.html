@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DOM Basics 11–20</title>
+    <style>
+      body { font-family: system-ui, sans-serif; padding: 24px; }
+      .hidden { display: none; }
+      .card { border: 1px solid #ddd; padding: 12px; margin-top: 12px; }
+      .good { color: #2e7d32; }
+      .bad { color: #c62828; }
+    </style>
+  </head>
+  <body>
+    <h1>DOM Basics (Lessons 11–20)</h1>
+
+    <div class="card" id="card">
+      <p id="status">Status: waiting</p>
+      <button id="toggleBtn">Toggle Status</button>
+    </div>
+
+    <div class="card">
+      <label>
+        Email:
+        <input id="emailInput" placeholder="name@example.com" />
+      </label>
+      <p id="emailFeedback"></p>
+    </div>
+
+    <div class="card">
+      <button id="addBtn">Add</button>
+      <button id="clearBtn">Clear</button>
+      <ul id="items"></ul>
+    </div>
+
+    <script>
+      // How to run this file:
+      // 1) Open this HTML file in your browser
+      // 2) Open DevTools -> Console to see logs
+
+      // -----------------------------------------------------------------------
+      // LESSON 11: classList toggle
+      // toggle adds/removes a class automatically.
+      // Why this matters: it makes UI changes simple.
+      const card = document.querySelector("#card");
+      card.classList.add("good");
+      console.log("Lesson 11: card starts good");
+
+      // -----------------------------------------------------------------------
+      // LESSON 12: Event types (click vs input)
+      // Different events fire at different times.
+      // Why this matters: you can react as the user types.
+      const emailInput = document.querySelector("#emailInput");
+      const emailFeedback = document.querySelector("#emailFeedback");
+      emailInput.addEventListener("input", () => {
+        console.log("Lesson 12: input event fired");
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 13: Basic validation and feedback
+      // Show feedback based on input.
+      // Why this matters: it guides users.
+      emailInput.addEventListener("input", () => {
+        const value = emailInput.value;
+        if (value.includes("@")) {
+          emailFeedback.textContent = "Looks good";
+          emailFeedback.className = "good";
+        } else {
+          emailFeedback.textContent = "Missing @";
+          emailFeedback.className = "bad";
+        }
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 14: dataset (custom data on elements)
+      // dataset stores extra info on HTML elements.
+      // Why this matters: it keeps data near the element.
+      const status = document.querySelector("#status");
+      status.dataset.state = "waiting";
+
+      // -----------------------------------------------------------------------
+      // LESSON 15: Updating text based on dataset
+      // Use dataset to control UI changes.
+      // Why this matters: it keeps logic organized.
+      const toggleBtn = document.querySelector("#toggleBtn");
+      toggleBtn.addEventListener("click", () => {
+        const current = status.dataset.state;
+        if (current === "waiting") {
+          status.dataset.state = "ready";
+          status.textContent = "Status: ready";
+          card.classList.remove("good");
+          card.classList.add("bad");
+        } else {
+          status.dataset.state = "waiting";
+          status.textContent = "Status: waiting";
+          card.classList.remove("bad");
+          card.classList.add("good");
+        }
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 16: Create many items (loop + DOM)
+      // You can loop to create multiple elements.
+      // Why this matters: lists are common.
+      const items = document.querySelector("#items");
+      const addBtn = document.querySelector("#addBtn");
+      let count = 0;
+      addBtn.addEventListener("click", () => {
+        count += 1;
+        const li = document.createElement("li");
+        li.textContent = `Item ${count}`;
+        items.appendChild(li);
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 17: Clearing a list
+      // You can remove all children at once.
+      // Why this matters: it resets the UI quickly.
+      const clearBtn = document.querySelector("#clearBtn");
+      clearBtn.addEventListener("click", () => {
+        items.innerHTML = ""; // quick clear
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 18: Prevent default behavior (forms)
+      // Some actions have a default behavior you may want to stop.
+      // Why this matters: you control the experience.
+      document.addEventListener("submit", (event) => {
+        event.preventDefault();
+        console.log("Lesson 18: prevented submit");
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 19: Querying multiple elements
+      // querySelectorAll returns a list of elements.
+      // Why this matters: you can update many items at once.
+      const buttons = document.querySelectorAll("button");
+      console.log("Lesson 19: button count", buttons.length);
+
+      // -----------------------------------------------------------------------
+      // LESSON 20: Removing event listeners (idea only)
+      // You can remove listeners if needed (advanced).
+      // Why this matters: it helps avoid memory leaks.
+      console.log("Lesson 20: You can remove listeners when needed.");
+    </script>
+  </body>
+</html>

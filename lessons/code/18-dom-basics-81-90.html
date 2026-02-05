@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DOM Basics 81–90</title>
+    <style>
+      body { font-family: system-ui, sans-serif; padding: 24px; }
+      .panel { border: 1px solid #ddd; padding: 12px; margin-top: 12px; }
+      .warn { color: #e65100; }
+    </style>
+  </head>
+  <body>
+    <h1>DOM Basics (Lessons 81–90)</h1>
+
+    <div class="panel">
+      <button id="addRow">Add Row</button>
+      <table border="1" cellpadding="6" id="table">
+        <thead>
+          <tr><th>#</th><th>Item</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="panel">
+      <input id="search" placeholder="Type to filter" />
+      <ul id="list"></ul>
+    </div>
+
+    <div class="panel">
+      <button id="toggle" aria-pressed="false">Toggle</button>
+    </div>
+
+    <script>
+      // How to run this file:
+      // 1) Open this HTML file in your browser
+      // 2) Open DevTools -> Console to see logs
+
+      // -----------------------------------------------------------------------
+      // LESSON 81: Building table rows
+      // You can build table rows with createElement.
+      // Why this matters: tables are still common.
+      const addRow = document.querySelector("#addRow");
+      const tbody = document.querySelector("#table tbody");
+      let rowCount = 0;
+      addRow.addEventListener("click", () => {
+        rowCount += 1;
+        const tr = document.createElement("tr");
+        const td1 = document.createElement("td");
+        const td2 = document.createElement("td");
+        td1.textContent = String(rowCount);
+        td2.textContent = `Item ${rowCount}`;
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tbody.appendChild(tr);
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 82: Filtering lists with input
+      // Filter and re-render.
+      // Why this matters: search is everywhere.
+      const items = ["alpha", "beta", "gamma", "delta"]; 
+      const list = document.querySelector("#list");
+      function render(listItems) {
+        list.innerHTML = "";
+        listItems.forEach((item) => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          list.appendChild(li);
+        });
+      }
+      render(items);
+      const search = document.querySelector("#search");
+      search.addEventListener("input", () => {
+        const q = search.value.toLowerCase();
+        const filtered = items.filter((i) => i.includes(q));
+        render(filtered);
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 83: aria-pressed state (accessibility)
+      // aria-pressed tells screen readers the toggle state.
+      // Why this matters: accessibility matters.
+      const toggle = document.querySelector("#toggle");
+      toggle.addEventListener("click", () => {
+        const pressed = toggle.getAttribute("aria-pressed") === "true";
+        toggle.setAttribute("aria-pressed", String(!pressed));
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 84: dataset with numbers
+      // dataset stores strings; convert when needed.
+      // Why this matters: avoid math bugs.
+      toggle.dataset.count = "0";
+      toggle.addEventListener("click", () => {
+        const current = Number(toggle.dataset.count);
+        toggle.dataset.count = String(current + 1);
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 85: Basic keyboard shortcuts
+      // You can listen for key combinations.
+      // Why this matters: it improves efficiency.
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "k" && event.metaKey) {
+          console.log("Lesson 85: Command+K pressed");
+        }
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 86: Simple confirm prompt
+      // confirm returns true/false.
+      // Why this matters: it prevents accidents.
+      addRow.addEventListener("dblclick", () => {
+        const ok = window.confirm("Add a row?");
+        if (!ok) return;
+        addRow.click();
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 87: Using template strings for HTML
+      // Create small HTML snippets.
+      // Why this matters: it can be faster than createElement.
+      // More details: lessons/notes/75-dom-innerhtml-safety.md
+      const warn = document.createElement("div");
+      warn.className = "warn";
+      warn.innerHTML = `<strong>Lesson 87:</strong> This is a warning.`;
+      document.body.appendChild(warn);
+
+      // -----------------------------------------------------------------------
+      // LESSON 88: Removing many children safely
+      // Replace with empty string to clear.
+      // Why this matters: it resets lists quickly.
+      // Try: list.innerHTML = "";
+
+      // -----------------------------------------------------------------------
+      // LESSON 89: Focus next input (basic)
+      // You can move focus programmatically.
+      // Why this matters: it makes forms smoother.
+      search.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          toggle.focus();
+        }
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 90: Small UI state object (again)
+      // State keeps your UI decisions in one place.
+      // Why this matters: it helps avoid confusion.
+      const ui = { rows: 0 };
+      addRow.addEventListener("click", () => {
+        ui.rows += 1;
+        console.log("Lesson 90:", ui);
+      });
+    </script>
+  </body>
+</html>

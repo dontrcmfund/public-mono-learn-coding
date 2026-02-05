@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DOM Basics 31–40</title>
+    <style>
+      body { font-family: system-ui, sans-serif; padding: 24px; }
+      .card { border: 1px solid #ddd; padding: 12px; margin-top: 12px; }
+      .error { color: #c62828; }
+      .success { color: #2e7d32; }
+      input { margin-right: 8px; }
+    </style>
+  </head>
+  <body>
+    <h1>DOM Basics (Lessons 31–40)</h1>
+
+    <div class="card">
+      <label>
+        Name:
+        <input id="name" />
+      </label>
+      <button id="saveBtn">Save</button>
+      <p id="saveMessage"></p>
+    </div>
+
+    <div class="card">
+      <label>
+        Theme:
+        <select id="themeSelect">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </label>
+      <p id="themeMessage"></p>
+    </div>
+
+    <div class="card">
+      <label>
+        <input type="checkbox" id="agreeBox" />
+        I agree
+      </label>
+      <button id="submitBtn">Submit</button>
+      <p id="agreeMessage"></p>
+    </div>
+
+    <div class="card">
+      <p id="counter">0</p>
+      <button id="startBtn">Start</button>
+      <button id="stopBtn">Stop</button>
+    </div>
+
+    <script>
+      // How to run this file:
+      // 1) Open this HTML file in your browser
+      // 2) Open DevTools -> Console to see logs
+
+      // -----------------------------------------------------------------------
+      // LESSON 31: Reading input on button click
+      // Read input only when the user clicks Save.
+      // Why this matters: it avoids reacting too often.
+      const nameInput = document.querySelector("#name");
+      const saveBtn = document.querySelector("#saveBtn");
+      const saveMessage = document.querySelector("#saveMessage");
+      saveBtn.addEventListener("click", () => {
+        const value = nameInput.value.trim();
+        if (value) {
+          saveMessage.textContent = "Saved!";
+          saveMessage.className = "success";
+        } else {
+          saveMessage.textContent = "Please enter a name";
+          saveMessage.className = "error";
+        }
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 32: Listening to select changes
+      // change fires when the selection changes.
+      // Why this matters: dropdowns are common.
+      const themeSelect = document.querySelector("#themeSelect");
+      const themeMessage = document.querySelector("#themeMessage");
+      themeSelect.addEventListener("change", () => {
+        themeMessage.textContent = `Theme: ${themeSelect.value}`;
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 33: Checkbox checked state
+      // checked is true/false depending on the box.
+      // Why this matters: toggles are everywhere.
+      const agreeBox = document.querySelector("#agreeBox");
+      const submitBtn = document.querySelector("#submitBtn");
+      const agreeMessage = document.querySelector("#agreeMessage");
+      submitBtn.addEventListener("click", () => {
+        if (agreeBox.checked) {
+          agreeMessage.textContent = "Thanks for agreeing";
+          agreeMessage.className = "success";
+        } else {
+          agreeMessage.textContent = "You must agree first";
+          agreeMessage.className = "error";
+        }
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 34: Basic form pattern (validate + feedback)
+      // Check, then respond.
+      // Why this matters: it keeps UI helpful.
+      // (This is already shown above in small pieces.)
+      console.log("Lesson 34: validate then show feedback");
+
+      // -----------------------------------------------------------------------
+      // LESSON 35: setInterval (repeating timers)
+      // setInterval repeats until stopped.
+      // Why this matters: timers can drive UI updates.
+      const counter = document.querySelector("#counter");
+      const startBtn = document.querySelector("#startBtn");
+      const stopBtn = document.querySelector("#stopBtn");
+      let intervalId = null;
+      startBtn.addEventListener("click", () => {
+        if (intervalId) return;
+        intervalId = setInterval(() => {
+          const current = Number(counter.textContent);
+          counter.textContent = String(current + 1);
+        }, 500);
+      });
+      stopBtn.addEventListener("click", () => {
+        clearInterval(intervalId);
+        intervalId = null;
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 36: Disable buttons
+      // disabled prevents a button from being clicked.
+      // Why this matters: it stops invalid actions.
+      stopBtn.disabled = true;
+      startBtn.addEventListener("click", () => {
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+      });
+      stopBtn.addEventListener("click", () => {
+        stopBtn.disabled = true;
+        startBtn.disabled = false;
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 37: Focus and blur
+      // focus means the input is active; blur means it lost focus.
+      // Why this matters: it improves user experience.
+      nameInput.addEventListener("focus", () => {
+        nameInput.style.outlineColor = "#2e7d32";
+      });
+      nameInput.addEventListener("blur", () => {
+        nameInput.style.outlineColor = "";
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 38: Reading dataset from a button
+      // data-* attributes store helpful info.
+      // Why this matters: it avoids hard‑coding values.
+      saveBtn.dataset.action = "save";
+      console.log("Lesson 38:", saveBtn.dataset.action);
+
+      // -----------------------------------------------------------------------
+      // LESSON 39: Preventing double clicks (simple guard)
+      // Guards can block rapid repeat actions.
+      // Why this matters: it prevents duplicate actions.
+      let saving = false;
+      saveBtn.addEventListener("click", () => {
+        if (saving) return;
+        saving = true;
+        setTimeout(() => {
+          saving = false;
+        }, 300);
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 40: Simple DOM state summary
+      // Keep small state in variables.
+      // Why this matters: it keeps UI predictable.
+      const uiState = { theme: "light" };
+      themeSelect.addEventListener("change", () => {
+        uiState.theme = themeSelect.value;
+        console.log("Lesson 40:", uiState);
+      });
+    </script>
+  </body>
+</html>

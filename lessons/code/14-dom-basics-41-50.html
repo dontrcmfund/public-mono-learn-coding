@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DOM Basics 41–50</title>
+    <style>
+      body { font-family: system-ui, sans-serif; padding: 24px; }
+      .panel { border: 1px solid #ddd; padding: 12px; margin-top: 12px; }
+      .hidden { display: none; }
+      .pill { display: inline-block; padding: 4px 8px; border-radius: 999px; background: #eee; }
+      .warning { background: #ffe0b2; }
+    </style>
+  </head>
+  <body>
+    <h1>DOM Basics (Lessons 41–50)</h1>
+
+    <div class="panel" id="panel">
+      <p id="status">Status: idle</p>
+      <button id="start">Start</button>
+      <button id="stop">Stop</button>
+    </div>
+
+    <div class="panel">
+      <p class="pill" id="pill">Mode: basic</p>
+      <button id="toggleMode">Toggle Mode</button>
+    </div>
+
+    <div class="panel">
+      <input id="search" placeholder="Search" />
+      <p id="searchEcho"></p>
+    </div>
+
+    <div class="panel">
+      <button id="addBox">Add Box</button>
+      <div id="boxes"></div>
+    </div>
+
+    <script>
+      // How to run this file:
+      // 1) Open this HTML file in your browser
+      // 2) Open DevTools -> Console to see logs
+
+      // -----------------------------------------------------------------------
+      // LESSON 41: Enable/disable controls together
+      // Why this matters: it keeps UI consistent.
+      const startBtn = document.querySelector("#start");
+      const stopBtn = document.querySelector("#stop");
+      const status = document.querySelector("#status");
+      stopBtn.disabled = true;
+      startBtn.addEventListener("click", () => {
+        status.textContent = "Status: running";
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+      });
+      stopBtn.addEventListener("click", () => {
+        status.textContent = "Status: idle";
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 42: Toggle styles with classes
+      // Why this matters: it avoids inline style changes.
+      const pill = document.querySelector("#pill");
+      const toggleMode = document.querySelector("#toggleMode");
+      toggleMode.addEventListener("click", () => {
+        pill.classList.toggle("warning");
+        pill.textContent = pill.classList.contains("warning")
+          ? "Mode: warning"
+          : "Mode: basic";
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 43: Live text echo
+      // Why this matters: it shows immediate feedback.
+      const search = document.querySelector("#search");
+      const searchEcho = document.querySelector("#searchEcho");
+      search.addEventListener("input", () => {
+        searchEcho.textContent = `You typed: ${search.value}`;
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 44: Creating elements with classes
+      // Why this matters: you can style new elements.
+      const boxes = document.querySelector("#boxes");
+      const addBox = document.querySelector("#addBox");
+      addBox.addEventListener("click", () => {
+        const div = document.createElement("div");
+        div.className = "panel";
+        div.textContent = "New box";
+        boxes.appendChild(div);
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 45: Clearing children safely
+      // Why this matters: it resets a UI area.
+      addBox.addEventListener("dblclick", () => {
+        boxes.innerHTML = "";
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 46: Keyboard events (basic)
+      // Why this matters: not all interaction is clicks.
+      search.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          status.textContent = `Status: searched for "${search.value}"`;
+        }
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 47: Simple focus management
+      // Why this matters: it helps guide users.
+      startBtn.addEventListener("click", () => {
+        search.focus();
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 48: Reading element sizes
+      // Why this matters: layout depends on size.
+      const panel = document.querySelector("#panel");
+      console.log("Lesson 48:", panel.getBoundingClientRect().width);
+
+      // -----------------------------------------------------------------------
+      // LESSON 49: Basic scroll handling
+      // Why this matters: you can react to page scroll.
+      window.addEventListener("scroll", () => {
+        // Keep it light; just log once in a while
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 50: Simple UI state object
+      // Why this matters: it keeps UI decisions in one place.
+      const ui = { mode: "basic" };
+      toggleMode.addEventListener("click", () => {
+        ui.mode = ui.mode === "basic" ? "warning" : "basic";
+        console.log("Lesson 50:", ui);
+      });
+    </script>
+  </body>
+</html>

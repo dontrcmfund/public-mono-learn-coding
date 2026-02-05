@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DOM Basics 51–60</title>
+    <style>
+      body { font-family: system-ui, sans-serif; padding: 24px; }
+      .panel { border: 1px solid #ddd; padding: 12px; margin-top: 12px; }
+      .info { color: #1976d2; }
+    </style>
+  </head>
+  <body>
+    <h1>DOM Basics (Lessons 51–60)</h1>
+
+    <div class="panel">
+      <button id="onceBtn">Click Once</button>
+      <p id="onceMsg"></p>
+    </div>
+
+    <div class="panel">
+      <button id="toggleBtn">Toggle Text</button>
+      <p id="toggleText">A</p>
+    </div>
+
+    <div class="panel">
+      <input id="range" type="range" min="0" max="100" value="50" />
+      <span id="rangeValue">50</span>
+    </div>
+
+    <div class="panel">
+      <button id="addMany">Add 50 Items</button>
+      <ul id="bigList"></ul>
+    </div>
+
+    <div class="panel">
+      <button id="scrollTop">Scroll to top</button>
+    </div>
+
+    <script>
+      // How to run this file:
+      // 1) Open this HTML file in your browser
+      // 2) Open DevTools -> Console to see logs
+
+      // -----------------------------------------------------------------------
+      // LESSON 51: Add listener once
+      // { once: true } makes the listener run only once.
+      // Why this matters: it prevents repeated actions.
+      const onceBtn = document.querySelector("#onceBtn");
+      const onceMsg = document.querySelector("#onceMsg");
+      onceBtn.addEventListener(
+        "click",
+        () => {
+          onceMsg.textContent = "Lesson 51: This only runs once.";
+        },
+        { once: true }
+      );
+
+      // -----------------------------------------------------------------------
+      // LESSON 52: Toggle text
+      // Toggle between two states.
+      // Why this matters: many UIs have two modes.
+      const toggleBtn = document.querySelector("#toggleBtn");
+      const toggleText = document.querySelector("#toggleText");
+      toggleBtn.addEventListener("click", () => {
+        toggleText.textContent = toggleText.textContent === "A" ? "B" : "A";
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 53: Range input and live value
+      // Range sliders fire input events.
+      // Why this matters: it’s a common UI control.
+      const range = document.querySelector("#range");
+      const rangeValue = document.querySelector("#rangeValue");
+      range.addEventListener("input", () => {
+        rangeValue.textContent = range.value;
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 54: Document fragments (performance idea)
+      // Use a fragment to add many elements efficiently.
+      // Why this matters: it is faster for large lists.
+      const addMany = document.querySelector("#addMany");
+      const bigList = document.querySelector("#bigList");
+      addMany.addEventListener("click", () => {
+        const fragment = document.createDocumentFragment();
+        for (let i = 1; i <= 50; i++) {
+          const li = document.createElement("li");
+          li.textContent = `Item ${i}`;
+          fragment.appendChild(li);
+        }
+        bigList.appendChild(fragment);
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 55: Reading attributes vs properties
+      // getAttribute reads the HTML attribute, not live value.
+      // Why this matters: attributes and properties can differ.
+      console.log("Lesson 55:", range.getAttribute("value"), range.value);
+
+      // -----------------------------------------------------------------------
+      // LESSON 56: Event bubbling (concept)
+      // Events bubble up from child to parent.
+      // Why this matters: it enables delegation.
+      // More details: lessons/notes/74-dom-event-bubbling.md
+      document.body.addEventListener("click", (event) => {
+        if (event.target.tagName === "LI") {
+          event.target.classList.toggle("info");
+        }
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 57: Stop propagation (concept)
+      // You can stop an event from bubbling.
+      // Why this matters: it prevents unwanted handlers.
+      // More details: lessons/notes/74-dom-event-bubbling.md
+      toggleBtn.addEventListener("click", (event) => {
+        event.stopPropagation();
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 58: Scroll to top
+      // You can control scroll position.
+      // Why this matters: it improves navigation.
+      const scrollTopBtn = document.querySelector("#scrollTop");
+      scrollTopBtn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 59: DOMContentLoaded (when DOM is ready)
+      // This event fires when the DOM is ready to use.
+      // Why this matters: it avoids null elements.
+      document.addEventListener("DOMContentLoaded", () => {
+        console.log("Lesson 59: DOM is ready");
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 60: Basic debugging with console
+      // console.log helps you see what’s happening.
+      // Why this matters: it is the simplest debugging tool.
+      console.log("Lesson 60: Use console.log to debug");
+    </script>
+  </body>
+</html>

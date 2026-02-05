@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DOM Basics 21–30</title>
+    <style>
+      body { font-family: system-ui, sans-serif; padding: 24px; }
+      .box { padding: 10px; border: 1px solid #ccc; margin-top: 10px; }
+      .hidden { display: none; }
+      .active { background: #e3f2fd; }
+      .row { margin-top: 8px; }
+    </style>
+  </head>
+  <body>
+    <h1>DOM Basics (Lessons 21–30)</h1>
+
+    <div class="box" id="box">
+      <p id="text">Original text</p>
+      <button id="toggleClassBtn">Toggle Class</button>
+      <button id="toggleHiddenBtn">Toggle Hidden</button>
+    </div>
+
+    <div class="box">
+      <p>Count: <span id="count">0</span></p>
+      <button id="incBtn">+1</button>
+      <button id="decBtn">-1</button>
+    </div>
+
+    <div class="box">
+      <input id="filterInput" placeholder="Filter items" />
+      <ul id="filterList"></ul>
+    </div>
+
+    <div class="box" id="logBox"></div>
+
+    <script>
+      // How to run this file:
+      // 1) Open this HTML file in your browser
+      // 2) Open DevTools -> Console to see logs
+
+      // -----------------------------------------------------------------------
+      // LESSON 21: classList toggle (practical use)
+      // toggle flips a class on/off.
+      // Why this matters: it’s a simple way to change styles.
+      const box = document.querySelector("#box");
+      const toggleClassBtn = document.querySelector("#toggleClassBtn");
+      toggleClassBtn.addEventListener("click", () => {
+        box.classList.toggle("active");
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 22: Hidden state
+      // You can hide/show elements with a class.
+      // Why this matters: it keeps the UI clean.
+      const text = document.querySelector("#text");
+      const toggleHiddenBtn = document.querySelector("#toggleHiddenBtn");
+      toggleHiddenBtn.addEventListener("click", () => {
+        text.classList.toggle("hidden");
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 23: Reading and updating numbers
+      // Use textContent to read and update numbers on screen.
+      // Why this matters: counters are common in apps.
+      const countEl = document.querySelector("#count");
+      const incBtn = document.querySelector("#incBtn");
+      const decBtn = document.querySelector("#decBtn");
+      incBtn.addEventListener("click", () => {
+        const current = Number(countEl.textContent);
+        countEl.textContent = String(current + 1);
+      });
+      decBtn.addEventListener("click", () => {
+        const current = Number(countEl.textContent);
+        countEl.textContent = String(current - 1);
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 24: Creating list items from data
+      // You can render a list from an array.
+      // Why this matters: apps often render lists from data.
+      const items = ["alpha", "bravo", "charlie", "delta"]; 
+      const filterList = document.querySelector("#filterList");
+      function renderList(list) {
+        filterList.innerHTML = "";
+        list.forEach((item) => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          filterList.appendChild(li);
+        });
+      }
+      renderList(items);
+
+      // -----------------------------------------------------------------------
+      // LESSON 25: Filtering UI lists
+      // Filter data then render it.
+      // Why this matters: it is a common UI pattern.
+      const filterInput = document.querySelector("#filterInput");
+      filterInput.addEventListener("input", () => {
+        const query = filterInput.value.toLowerCase();
+        const filtered = items.filter((item) => item.includes(query));
+        renderList(filtered);
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 26: Event target
+      // event.target is the element that triggered the event.
+      // Why this matters: it helps you understand what the user clicked.
+      document.addEventListener("click", (event) => {
+        if (event.target.tagName === "BUTTON") {
+          console.log("Lesson 26: clicked", event.target.textContent);
+        }
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 27: Event delegation (one listener for many)
+      // Put one listener on a parent instead of many on children.
+      // Why this matters: it scales better for big lists.
+      filterList.addEventListener("click", (event) => {
+        if (event.target.tagName === "LI") {
+          event.target.classList.toggle("active");
+        }
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 28: Using data attributes in the UI
+      // data-* attributes store extra info.
+      // Why this matters: it keeps data near the element.
+      const logBox = document.querySelector("#logBox");
+      logBox.dataset.message = "ready";
+      logBox.textContent = `Lesson 28: ${logBox.dataset.message}`;
+
+      // -----------------------------------------------------------------------
+      // LESSON 29: Basic timers in the DOM
+      // You can update the UI after a delay.
+      // Why this matters: feedback can be timed.
+      setTimeout(() => {
+        logBox.textContent = "Lesson 29: updated after 1 second";
+      }, 1000);
+
+      // -----------------------------------------------------------------------
+      // LESSON 30: Simple state object
+      // Keep UI state in one place.
+      // Why this matters: it makes behavior predictable.
+      const state = { clicks: 0 };
+      document.addEventListener("click", () => {
+        state.clicks += 1;
+        logBox.dataset.clicks = String(state.clicks);
+      });
+    </script>
+  </body>
+</html>

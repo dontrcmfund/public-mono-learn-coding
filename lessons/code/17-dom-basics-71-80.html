@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DOM Basics 71–80</title>
+    <style>
+      body { font-family: system-ui, sans-serif; padding: 24px; }
+      .panel { border: 1px solid #ddd; padding: 12px; margin-top: 12px; }
+      .active { background: #e8f5e9; }
+      .error { color: #c62828; }
+      .ok { color: #2e7d32; }
+    </style>
+  </head>
+  <body>
+    <h1>DOM Basics (Lessons 71–80)</h1>
+
+    <div class="panel">
+      <button id="toggleTheme">Toggle Theme</button>
+      <p id="themeLabel">Theme: light</p>
+    </div>
+
+    <div class="panel">
+      <input id="email" placeholder="email@example.com" />
+      <button id="validateEmail">Validate</button>
+      <p id="emailMessage"></p>
+    </div>
+
+    <div class="panel">
+      <button id="addTodo">Add Todo</button>
+      <ul id="todoList"></ul>
+    </div>
+
+    <div class="panel">
+      <button id="swapText">Swap Text</button>
+      <p id="first">First</p>
+      <p id="second">Second</p>
+    </div>
+
+    <script>
+      // How to run this file:
+      // 1) Open this HTML file in your browser
+      // 2) Open DevTools -> Console to see logs
+
+      // -----------------------------------------------------------------------
+      // LESSON 71: Theme toggle with state
+      // Keep theme in a variable.
+      // Why this matters: state drives UI.
+      let theme = "light";
+      const toggleTheme = document.querySelector("#toggleTheme");
+      const themeLabel = document.querySelector("#themeLabel");
+      toggleTheme.addEventListener("click", () => {
+        theme = theme === "light" ? "dark" : "light";
+        themeLabel.textContent = `Theme: ${theme}`;
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 72: Simple email validation
+      // Check for "@" and a dot.
+      // Why this matters: basic input checks improve UX.
+      const email = document.querySelector("#email");
+      const validateEmail = document.querySelector("#validateEmail");
+      const emailMessage = document.querySelector("#emailMessage");
+      validateEmail.addEventListener("click", () => {
+        const value = email.value.trim();
+        const ok = value.includes("@") && value.includes(".");
+        emailMessage.textContent = ok ? "Looks valid" : "Try a valid email";
+        emailMessage.className = ok ? "ok" : "error";
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 73: Adding items to a list
+      // Each click adds a new item.
+      // Why this matters: lists are common in UI.
+      const addTodo = document.querySelector("#addTodo");
+      const todoList = document.querySelector("#todoList");
+      let todoCount = 0;
+      addTodo.addEventListener("click", () => {
+        todoCount += 1;
+        const li = document.createElement("li");
+        li.textContent = `Todo ${todoCount}`;
+        todoList.appendChild(li);
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 74: Toggling list item state (event delegation)
+      // Click a list item to toggle it.
+      // Why this matters: it adds interactivity.
+      todoList.addEventListener("click", (event) => {
+        if (event.target.tagName === "LI") {
+          event.target.classList.toggle("active");
+        }
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 75: Removing an item
+      // Double‑click to remove an item.
+      // Why this matters: items can be deleted.
+      todoList.addEventListener("dblclick", (event) => {
+        if (event.target.tagName === "LI") {
+          event.target.remove();
+        }
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 76: Replacing text content
+      // You can swap text between elements.
+      // Why this matters: it shows DOM manipulation.
+      const swapText = document.querySelector("#swapText");
+      const first = document.querySelector("#first");
+      const second = document.querySelector("#second");
+      swapText.addEventListener("click", () => {
+        const temp = first.textContent;
+        first.textContent = second.textContent;
+        second.textContent = temp;
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 77: Using hidden attribute
+      // hidden is another way to hide elements.
+      // Why this matters: you have multiple options.
+      second.hidden = false;
+
+      // -----------------------------------------------------------------------
+      // LESSON 78: Toggling hidden
+      // You can toggle the hidden property.
+      // Why this matters: it’s an easy show/hide method.
+      swapText.addEventListener("click", () => {
+        second.hidden = !second.hidden;
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 79: Basic aria label
+      // aria-label improves accessibility.
+      // Why this matters: more people can use your app.
+      email.setAttribute("aria-label", "Email address");
+
+      // -----------------------------------------------------------------------
+      // LESSON 80: Simple UI reset
+      // Clear inputs and messages.
+      // Why this matters: it resets the form.
+      function resetEmail() {
+        email.value = "";
+        emailMessage.textContent = "";
+        emailMessage.className = "";
+      }
+      // Try: resetEmail();
+    </script>
+  </body>
+</html>

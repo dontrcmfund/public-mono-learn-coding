@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DOM Basics 1–10</title>
+    <style>
+      body { font-family: system-ui, sans-serif; padding: 24px; }
+      .highlight { background: #ffeaa7; padding: 2px 6px; }
+      button { margin-right: 8px; }
+    </style>
+  </head>
+  <body>
+    <h1 id="title">DOM Basics (Lessons 1–10)</h1>
+    <p id="message">This text will change.</p>
+    <input id="nameInput" placeholder="Type your name" />
+    <button id="changeTextBtn">Change Text</button>
+    <button id="addItemBtn">Add Item</button>
+    <ul id="list"></ul>
+
+    <script>
+      // How to run this file:
+      // 1) Open this HTML file in your browser
+      // 2) Open DevTools -> Console to see logs
+      // If you want more background, see lessons/notes/70-what-is-the-dom.md
+
+      // -----------------------------------------------------------------------
+      // LESSON 1: Selecting an element
+      // document.querySelector finds the first matching element.
+      // Why this matters: you need a handle to change the page.
+      const title = document.querySelector("#title");
+      console.log("Lesson 1:", title.textContent);
+
+      // -----------------------------------------------------------------------
+      // LESSON 2: Changing text
+      // textContent changes what the user sees.
+      // Why this matters: it makes pages dynamic.
+      const message = document.querySelector("#message");
+      message.textContent = "Lesson 2: Text changed by JavaScript.";
+
+      // -----------------------------------------------------------------------
+      // LESSON 3: Changing style
+      // style lets you change CSS directly.
+      // Why this matters: you can visually show changes.
+      title.style.color = "#2d3436";
+
+      // -----------------------------------------------------------------------
+      // LESSON 4: Adding a class
+      // classList lets you add/remove classes.
+      // Why this matters: it keeps styles organized.
+      message.classList.add("highlight");
+
+      // -----------------------------------------------------------------------
+      // LESSON 5: Reading input values
+      // You can read what the user typed.
+      // Why this matters: most apps need user input.
+      const nameInput = document.querySelector("#nameInput");
+      console.log("Lesson 5:", nameInput.value); // empty at first
+
+      // -----------------------------------------------------------------------
+      // LESSON 6: Adding a click event
+      // addEventListener runs code when something happens.
+      // Why this matters: this is how buttons do things.
+      const changeTextBtn = document.querySelector("#changeTextBtn");
+      changeTextBtn.addEventListener("click", () => {
+        const name = nameInput.value || "friend";
+        message.textContent = `Lesson 6: Hello, ${name}!`;
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 7: Creating a new element
+      // document.createElement makes a new HTML element.
+      // Why this matters: you can build UI with code.
+      const list = document.querySelector("#list");
+
+      // -----------------------------------------------------------------------
+      // LESSON 8: Appending an element
+      // appendChild adds the new element to the page.
+      // Why this matters: it makes the element visible.
+      const addItemBtn = document.querySelector("#addItemBtn");
+      let itemCount = 0;
+      addItemBtn.addEventListener("click", () => {
+        itemCount += 1;
+        const li = document.createElement("li");
+        li.textContent = `Lesson 8: Item ${itemCount}`;
+        list.appendChild(li);
+      });
+
+      // -----------------------------------------------------------------------
+      // LESSON 9: Setting attributes
+      // setAttribute adds or changes HTML attributes.
+      // Why this matters: it controls behavior and data.
+      nameInput.setAttribute("aria-label", "Name input");
+
+      // -----------------------------------------------------------------------
+      // LESSON 10: Removing an element
+      // You can remove elements you no longer need.
+      // Why this matters: it keeps the UI clean.
+      // Try this in the console: document.querySelector("li")?.remove();
+      console.log("Lesson 10: Try removing an item in the console.");
+    </script>
+  </body>
+</html>
