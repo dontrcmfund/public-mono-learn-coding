@@ -1,0 +1,12 @@
+{
+  "name": "public-mono-learn-coding",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Learning-focused monorepo (no functional apps yet)",
+  "scripts": {
+    "lint": "eslint .",
+    "format": "prettier -w .",
+    "typecheck": "tsc -b",
+    "test": "echo \"No tests yet\""
+  }
+}
