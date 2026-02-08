@@ -7,6 +7,11 @@ Why do we care?
 - It runs in every browser, so it is widely useful
 - Understanding its history helps you forgive its quirks
 
+Why this matters to you (past, present, future)
+- Past: if web code felt mysterious, JS explains how pages become interactive
+- Present: you can now read and run scripts in both browser and Node lessons
+- Future: JS foundations transfer to frameworks, tooling, and backend work
+
 Short history (the “why” behind the design)
 - 1995: the web was mostly static pages (text and images)
 - Browsers needed a way to make pages interactive (clicks, forms, animations)

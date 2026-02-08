@@ -33,8 +33,9 @@ console.log("Lesson 31: Type something and press Enter");
 // More details: lessons/notes/77-node-fetch-gotchas.md
 async function fetchExample() {
   try {
-    const res = await fetch("https://api.github.com");
-    console.log("Lesson 33 status:", res.status);
+    // Use a data URL so this lesson works without internet access.
+    const res = await fetch("data:text/plain,hello");
+    console.log("Lesson 33 status:", res.status, "ok:", res.ok);
   } catch (err) {
     console.log("Lesson 33 error:", err.message);
   }
@@ -48,9 +49,14 @@ fetchExample();
 // More details: lessons/notes/77-node-fetch-gotchas.md
 async function fetchJson() {
   try {
-    const res = await fetch("https://api.github.com");
+    // Also offline-safe: parse JSON from an in-memory data URL.
+    const res = await fetch("data:application/json,%7B%22ok%22%3Atrue%7D");
+    if (!res.ok) {
+      console.log("Lesson 34: HTTP error", res.status);
+      return;
+    }
     const data = await res.json();
-    console.log("Lesson 34:", typeof data);
+    console.log("Lesson 34:", typeof data, data.ok);
   } catch (err) {
     console.log("Lesson 34 error:", err.message);
   }

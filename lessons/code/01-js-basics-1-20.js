@@ -4,6 +4,16 @@
  * How to run this file (later, when ready):
  * 1) Open a terminal in the repo
  * 2) Run: node lessons/code/01-js-basics-1-20.js
+ *
+ * Study for retention (not speed):
+ * 1) Read one lesson block
+ * 2) Say the "why" out loud
+ * 3) Change one line and predict output before running
+ *
+ * Extra context:
+ * - lessons/notes/60-what-is-javascript.md
+ * - lessons/notes/78-how-to-study-this-curriculum.md
+ * - lessons/notes/79-history-and-etymology-map.md
  */
 
 // -----------------------------------------------------------------------------

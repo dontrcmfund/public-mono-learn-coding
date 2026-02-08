@@ -5,7 +5,14 @@
  * 1) Open a terminal in the repo
  * 2) Run: node lessons/code/19-node-basics-1-10.js
  *
- * If you want more background, see lessons/notes/71-what-is-node.md
+ * This file creates temporary output files while teaching file IO.
+ * Reading files and writing files is expected here.
+ *
+ * Extra context:
+ * - lessons/notes/71-what-is-node.md
+ * - lessons/notes/76-node-sync-vs-async.md
+ * - lessons/notes/78-how-to-study-this-curriculum.md
+ * - lessons/notes/79-history-and-etymology-map.md
  */
 
 // -----------------------------------------------------------------------------
